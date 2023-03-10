@@ -1,26 +1,27 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="nav-title">
+    <currency-navigation></currency-navigation>
+  </div>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+<script setup>
+import CurrencyNavigation from "./components/CurrencyNavigation.vue";
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style lang='scss'>
+* {
+  padding: 0;
+  margin: 0;
+  font-size: 10px;
+  background-color: rgb(33, 32, 32);
+  color: white;
+}
+
+.nav-title {
+  height: 100%;
+  background-color: yellow;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>
