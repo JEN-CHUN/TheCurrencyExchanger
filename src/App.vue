@@ -1,14 +1,12 @@
 <template>
-  <div class="nav-title">
-    <currency-navigation></currency-navigation>
-  </div>
+  <currency-navigation></currency-navigation>
 </template>
 
 <script setup>
 import CurrencyNavigation from "./components/CurrencyNavigation.vue";
 </script>
 
-<style lang='scss'>
+<style lang="scss">
 * {
   padding: 0;
   margin: 0;
@@ -17,11 +15,5 @@ import CurrencyNavigation from "./components/CurrencyNavigation.vue";
   color: white;
 }
 
-.nav-title {
-  height: 100%;
-  background-color: yellow;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+
 </style>
