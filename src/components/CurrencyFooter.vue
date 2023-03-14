@@ -1,0 +1,19 @@
+<template>
+  <footer class="footer"><p class="footer__text">2023 Vue 練習 串接兩個不同的API</p></footer>
+</template>
+
+<script setup></script>
+
+<style scoped lang="scss">
+.footer {
+//   background-color: yellow;
+  color: black;
+  background-color: yellow;
+  margin-top: auto;
+  &__text{
+    text-align: center;
+    font-size: 1.8rem;
+    padding: 20px;
+  }
+}
+</style>

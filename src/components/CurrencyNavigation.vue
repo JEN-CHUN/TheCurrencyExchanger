@@ -1,58 +1,65 @@
 <template>
-  <nav class="nav">
-    <div class="nav-left">
-      <img
-        class="nav-left__logo"
-        src="../assets/logo.svg"
-        alt=""
-        width="60"
-        height="60"
-      />
-      <p class="nav-left__title">The Currency Exchanger</p>
-    </div>
-    <div class="nav-right">
-      <ul class="nav-right__link-menu">
-        <li class="nav-right__link">
-          <a href="" class="nav-right__link-text">Get Started</a>
-        </li>
-        <li class="nav-right__link">
-          <a href="" class="nav-right__link-text">About The Project</a>
-        </li>
-        <li class="nav-right__link">
-          <a href="" class="nav-right__link-text">About Me</a>
-        </li>
-      </ul>
-      <div
-        class="nav-right__hamburger"
-        :class="{ active: hamburgerActive }"
-        @click="toogleHamburger"
-      >
-        <span class="nav-right__hamburger__bar"></span>
-        <span class="nav-right__hamburger__bar"></span>
-        <span class="nav-right__hamburger__bar"></span>
+  <div class="nav-container">
+    <nav class="nav">
+      <div class="nav-left">
+        <img
+          class="nav-left__logo"
+          src="../assets/logo.svg"
+          alt="logo of the website"
+          width="60"
+          height="60"
+        />
+        <p class="nav-left__title">The Currency Exchanger</p>
       </div>
+      <div class="nav-right">
+        <ul class="nav-right__link-menu">
+          <li class="nav-right__link">
+            <a href="" class="nav-right__link-text">Get Started</a>
+          </li>
+          <li class="nav-right__link">
+            <a href="" class="nav-right__link-text">About The Project</a>
+          </li>
+          <li class="nav-right__link">
+            <a href="" class="nav-right__link-text">About Me</a>
+          </li>
+        </ul>
+        <div
+          class="nav-right__hamburger"
+          :class="{ active: hamburgerActive }"
+          @click="toogleHamburger"
+        >
+          <span class="nav-right__hamburger__bar"></span>
+          <span class="nav-right__hamburger__bar"></span>
+          <span class="nav-right__hamburger__bar"></span>
+        </div>
+      </div>
+    </nav>
+    <div class="side-nav" :class="{ 'width-0': !hamburgerActive }">
+      <div class="side-nav__close" @click="toogleHamburger"></div>
+      <a
+        class="side-nav__link"
+        :class="{ 'text-transition': !hamburgerActive }"
+        href=""
+        >Get Started</a
+      >
+      <a
+        class="side-nav__link"
+        :class="{ 'text-transition': !hamburgerActive }"
+        href=""
+        >About The Project</a
+      >
+      <a
+        class="side-nav__link"
+        :class="{ 'text-transition': !hamburgerActive }"
+        href=""
+        >About Me</a
+      >
     </div>
-  </nav>
-  <div class="side-nav" :class="{ 'width-0': !hamburgerActive }">
-    <div class="side-nav__close" @click="toogleHamburger"></div>
-    <a
-      class="side-nav__link"
-      :class="{ 'text-transition': !hamburgerActive }"
-      href=""
-      >Get Started</a
-    >
-    <a
-      class="side-nav__link"
-      :class="{ 'text-transition': !hamburgerActive }"
-      href=""
-      >About The Project</a
-    >
-    <a
-      class="side-nav__link"
-      :class="{ 'text-transition': !hamburgerActive }"
-      href=""
-      >About Me</a
-    >
+    <div
+      v-if="hamburgerActive"
+      @click="toogleHamburger"
+      class="side-dark-background"
+    ></div>
   </div>
 </template>
 
@@ -70,16 +77,26 @@ function toogleHamburger() {
 <style scoped lang="scss">
 * {
   background-color: inherit;
-  color: black;
+  // color: black;
+}
+
+.nav-container{
+  background-color: yellow;
+  display: flex;
+  justify-content: center;
 }
 
 .nav {
-  width: 100%;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background-color: yellow;
+  // background-color: yellow;
   min-height: 80px;
+  width: 1280px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
 }
 
 .nav-left {
@@ -174,6 +191,17 @@ function toogleHamburger() {
   }
 }
 
+.side-dark-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9998;
+  background-color: rgba(0, 0, 0, 0.355);
+  transition: all 0.5s ease-in;
+}
+
 @media (max-width: 980px) {
   .nav-left {
     &__title {
@@ -219,7 +247,7 @@ function toogleHamburger() {
       display: none;
     }
     &__title {
-      font-size: 3rem;
+      font-size: 2.7rem;
     }
   }
 }
@@ -239,6 +267,10 @@ function toogleHamburger() {
         display: none;
       }
     }
+  }
+
+  .side-nav {
+    display: none;
   }
 }
 

@@ -1,4 +1,11 @@
-import { createApp } from 'vue'
-import App from './App.vue'
+import { createApp } from "vue";
 
-createApp(App).mount('#app')
+import CurrencyCard from "./components/UI/CurrencyCard.vue";
+
+import App from "./App.vue";
+
+const app = createApp(App);
+
+app.component("currency-card", CurrencyCard);
+
+app.mount("#app");
