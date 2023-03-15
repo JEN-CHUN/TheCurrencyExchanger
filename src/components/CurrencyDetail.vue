@@ -1,10 +1,20 @@
 <template>
   <div>
-    <img src="" alt="">
-    <p>test</p>
+    <img src="https://placehold.jp/350x210.png" alt="">
+    <p class="title">test</p>
+    <CurrencySelect/>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import CurrencySelect from "./CurrencyDetail/CurrencySelect.vue";
 
-<style></style>
+</script>
+
+<style>
+
+.title{
+  font-size: 4rem;
+}
+
+</style>

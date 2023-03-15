@@ -3,6 +3,7 @@
   <main class="main">
     <div class="converter">
       <currency-card><currency-detail></currency-detail></currency-card>
+      <currency-card><currency-detail></currency-detail></currency-card>
     </div>
   </main>
 
@@ -35,6 +36,7 @@ import CurrencyDetail from "./components/CurrencyDetail.vue";
 </script>
 
 <style lang="scss">
+
 * {
   padding: 0;
   margin: 0;
@@ -51,13 +53,15 @@ import CurrencyDetail from "./components/CurrencyDetail.vue";
 .main {
   flex: 1;
   background-color: rgb(108, 108, 108);
-  margin-top: 8rem;
+
 }
 
 .converter {
   background-color: aqua;
+  max-width: 1280px;
+  margin: auto;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   margin-top: 8rem;
   gap: 30px;
 }

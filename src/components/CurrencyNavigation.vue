@@ -75,6 +75,8 @@ function toogleHamburger() {
 </script>
 
 <style scoped lang="scss">
+
+
 * {
   background-color: inherit;
   // color: black;
@@ -84,6 +86,10 @@ function toogleHamburger() {
   background-color: yellow;
   display: flex;
   justify-content: center;
+  width: 100%;
+  min-height: 80px;
+  position: fixed;
+  top: 0;
 }
 
 .nav {
@@ -91,12 +97,7 @@ function toogleHamburger() {
   justify-content: space-around;
   align-items: center;
   // background-color: yellow;
-  min-height: 80px;
   width: 1280px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
 }
 
 .nav-left {
