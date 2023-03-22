@@ -2,7 +2,11 @@
   <div>
     <img src="https://placehold.jp/350x210.png" alt="" />
     <p class="title">test</p>
-    <CurrencySelect :is-open="isOpen" @toggleIsOpen="$emit('toggleIsOpen')" />
+    <CurrencySelect
+      :is-open="isOpen"
+      @toggleIsOpen="$emit('toggleIsOpen')"
+      :isDisabled="isDisabled"
+    />
   </div>
 </template>
 
@@ -12,14 +16,15 @@ import CurrencySelect from "./CurrencySelect.vue";
 defineEmits(["toggleIsOpen"]);
 const props = defineProps({
   isOpen: Boolean,
+  isDisabled: Boolean,
 });
 
 //////
-props
+props;
 </script>
 
 <style>
 .title {
-  font-size: 4rem;
+  font-size: 5rem;
 }
 </style>

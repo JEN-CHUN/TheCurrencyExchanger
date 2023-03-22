@@ -75,14 +75,12 @@ function toogleHamburger() {
 </script>
 
 <style scoped lang="scss">
-
-
 * {
   background-color: inherit;
   // color: black;
 }
 
-.nav-container{
+.nav-container {
   background-color: yellow;
   display: flex;
   justify-content: center;
@@ -90,6 +88,7 @@ function toogleHamburger() {
   min-height: 80px;
   position: fixed;
   top: 0;
+  z-index: 1000;
 }
 
 .nav {
@@ -180,6 +179,8 @@ function toogleHamburger() {
     position: absolute;
     right: 40px;
     top: 0px;
+    z-index: 1000;
+    // background-color: red;
     cursor: pointer;
   }
   &__close::after {
@@ -187,18 +188,19 @@ function toogleHamburger() {
     font-size: 100px;
     height: 50px;
     width: 50px;
+    z-index: 1000;
     display: inline-block;
     content: "\00d7"; /* This will render the 'X' */
   }
 }
 
 .side-dark-background {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 9998;
+  z-index: 1000;
   background-color: rgba(0, 0, 0, 0.355);
   transition: all 0.5s ease-in;
 }
