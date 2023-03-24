@@ -1,9 +1,11 @@
 <template>
-  <div class="converter-containter">
+  <div class="converter-containter" v-if="countriesArray">
     <div class="exchanger">
       <currency-card>
         <currency-detail
           :is-open="listOpenOne"
+          :countries-array="countriesArray"
+          :default-index="defaultListOneInfo"
           @toggleIsOpen="toggleListOpenOne"
         ></currency-detail>
       </currency-card>
@@ -11,8 +13,10 @@
       <currency-card>
         <currency-detail
           :is-open="listOpenTwo"
-          @toggleIsOpen="toggleListOpenTwo"
+          :countriesArray="countriesArray"
+          :default-index="defaultListTwoInfo"
           :isDisabled="true"
+          @toggleIsOpen="toggleListOpenTwo"
         ></currency-detail>
       </currency-card>
     </div>
@@ -41,12 +45,15 @@ import axios from "axios";
 const listOpenOne = ref(false);
 const listOpenTwo = ref(false);
 const modalIsOpen = ref(false);
+const defaultListOneInfo = ref(92);
+const defaultListTwoInfo = ref(91);
+
 provide("listOpenOne", listOpenOne);
 provide("listOpenTwo", listOpenTwo);
 
 //Currency API data of the Available Countries
 
-const countriesArray = ref([]); //Initialize the Variable's Value as Empty Array
+const countriesArray = ref(null); //Initialize the Variable's Value as Empty Array
 
 /////
 function toggleListOpenOne() {
@@ -66,72 +73,78 @@ function toggleListOpenTwo() {
     listOpenTwo.value = false;
   }
 }
+
 function toggleModal() {
   modalIsOpen.value = false;
 }
 
-// console.log(axios.isCancel(true))
-axios
-  .get("https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/country.json")
-  .then((res) => {
-    const datas = Object.keys(res.data).map((key) => ({
-      code: key,
-      name: res.data[key],
-    }));
+async function getCountriesData() {
+  try {
+    axios
+      .get(
+        "https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/country.json"
+      )
+      .then((res) => {
+        const datas = Object.keys(res.data).map((key) => ({
+          code: key,
+          name: res.data[key],
+        }));
 
-    // for (let i = 0; i < datas.length; i++) {
-    //   const name = datas[i]["name"]["country_iso3"];
-    //   console.log(name)
-    //   countriesArray.value.push({ name });
-    // }
-    // countriesArray.value = datas.map((data) => ({
-    //   name: data.name.country_iso3,
-    // }));
-    countriesArray.value = datas.map((data) => ({
-      country_iso3: data.name.country_iso3,
-      currency_number: data.name.currency_number,
-      country_iso_numeric: data.name.country_iso_numeric,
-    }));
+        countriesArray.value = datas.map((data) => ({
+          country_iso3: data.name.country_iso3,
+          currency_number: data.name.currency_number,
+          country_iso_numeric: data.name.country_iso_numeric,
+        }));
 
-    // console.log(countriesArray.value);
-    // console.log(countriesArray.value.find((obj) => obj.name === "twn"));
-    return axios.get("https://restcountries.com/v3.1/all");
-  })
-  .then((countriesInfoResponse) => {
-    const countriesInfo = countriesInfoResponse.data;
-    // console.log(
-    //   rc_res.data[0].name.common,
-    //   Object.keys(rc_res.data[0].currencies)[0],
-    //   rc_res.data[0].cca3
-    // );
-    // console.log(countriesInfo.find((obj) => obj.cca3 === "CHN"));
-    // console.log(countriesArray.value[0].name.toUpperCase());
+        return axios.get("https://restcountries.com/v3.1/all");
+      })
+      .then((countriesInfoResponse) => {
+        const countriesInfo = countriesInfoResponse.data;
 
-    /* The Info inside Currency API is a mess. 
-    What I do here is to make sure the Currency Code 
+        /*
+    The Info inside Currency API is a mess.
+    What I do here is to make sure the Currency Code
     aka the Currency ISO Number is correct
     At the same time filter out all the not-well organized JSON object
     */
-    let num = 0;
-    let error = 0;
-    for (let i = 0; i < countriesArray.value.length; i++) {
-      const countriesMatches = countriesInfo.find(
-        (obj) =>
-          obj.ccn3 === countriesArray.value[i].currency_number &&
-          obj.ccn3 === countriesArray.value[i].country_iso_numeric
-      );
+        for (let i = 0; i < countriesArray.value.length; i++) {
+          const countriesMatches = countriesInfo.find(
+            (obj) =>
+              obj.ccn3 === countriesArray.value[i].currency_number &&
+              obj.ccn3 === countriesArray.value[i].country_iso_numeric
+          );
 
-      if (countriesMatches) {
-        console.log(`${countriesMatches.name.common} with ${countriesArray.value[i].country_iso3}`);
-        num++;
-      } else {
-        error++;
-      }
-    }
-    console.log(num, error);
-  }).catch(
-    console.log('可能有東西設定錯誤了，或是api延遲了，請重新再試或是查看程式碼')
-  );
+          if (countriesMatches) {
+            countriesArray.value[i].full_name = countriesMatches.name.common;
+            countriesArray.value[i].currency_name = Object.keys(
+              countriesMatches.currencies
+            )[0];
+            countriesArray.value[i].country_flag = countriesMatches.flags.svg;
+          } else {
+            countriesArray.value[i].full_name = null;
+            countriesArray.value[i].currency_name = null;
+          }
+        }
+
+        countriesArray.value = countriesArray.value.filter(
+          (country) =>
+            country.full_name !== null && country.currency_name !== null
+        );
+      })
+      .then(() => {
+        console.log(countriesArray.value[0].country_flag);
+      });
+  } catch (error) {
+    (error) => {
+      console.log(
+        "可能有東西設定錯誤了，或是api延遲了，請重新再試或是查看程式碼",
+        error
+      );
+    };
+  }
+}
+
+getCountriesData();
 </script>
 
 <style scoped lang="scss">
@@ -141,6 +154,7 @@ axios
   margin-top: 25rem;
   position: relative;
 }
+
 .exchanger {
   background-color: aqua;
   display: flex;
@@ -160,6 +174,7 @@ axios
   align-items: center;
   margin-top: 4rem;
   font-size: 3rem;
+
   &__date {
     font-size: 2.25rem;
   }

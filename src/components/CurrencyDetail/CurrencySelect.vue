@@ -1,14 +1,22 @@
 <template>
-  <div class="currency">
-    <input type="text" class="currency__input" :disabled="isDisabled" />
+  <div class="currency" v-if="countriesArray">
+    <input
+      type="text"
+      class="currency__input"
+      :disabled="isDisabled"
+      :value="testValue"
+      @input="$emit('update:testValue', $event.target.value)"
+    />
     <!-- <select name="currencies" class="currency__options" id=""> -->
     <div
       class="currency__options"
       @click.stop="toogleSelect()"
       @click="$emit('toggleIsOpen')"
     >
-      <p class="currency__options__nation">awef</p>
-      <p class="currency__options__arrow" v-html="OpenIcon"></p>
+      <p class="currency__options__nation">
+        {{ countriesArray[currenciesNameShown].currency_name }}
+      </p>
+      <p class="currency__options__arrow" v-html="arrowIcon"></p>
     </div>
     <div class="currency__list" @click.stop v-if="OptionListOpen && isOpen">
       <input
@@ -17,16 +25,33 @@
         name=""
         id=""
         placeholder="Type to Search"
+        v-model="countriesSearch"
       />
-      <ul class="national-list">
-        <li class="national-list__list-item" v-for="index in 10" :key="index">
-          <!-- <img
+      <ul class="national-list" v-if="countriesArray">
+        <li
+          class="national-list__list-item"
+          v-for="countries in filteredCountries"
+          :key="countries.full_name"
+          @click="
+            changeCurrencyName(countriesArray, countries),
+              $emit('changeCountryInfo', currencyShown)
+          "
+        >
+          <img
             class="national-list__list-item__pic"
-            src="https://placehold.jp/50x30.png"
-            alt=""
-          /> -->
-          <p class="national-list__list-item__name">america</p>
-          <p class="national-list__list-item__currency">- USD</p>
+            :src="countries.country_flag"
+            width="30"
+            alt="15"
+          />
+          <p class="national-list__list-item__name">
+            {{ countries.full_name }}
+          </p>
+          <p class="national-list__list-item__currency">
+            - {{ countries.currency_name }}
+          </p>
+          <!-- <p style="padding-left: 30px">
+            {{ countriesArray.indexOf(countries) }}
+          </p> -->
         </li>
       </ul>
     </div>
@@ -44,35 +69,60 @@ import {
   inject,
 } from "vue";
 
-defineEmits(["toggleIsOpen"]);
 const props = defineProps({
   isOpen: Boolean,
   isDisabled: Boolean,
+  countriesArray: Array,
+  defaultIndex: Number,
+  testValue: String,
 });
+defineEmits(["toggleIsOpen", "changeCountryInfo", "update:testValue"]);
+
+// These Section is for V-Model Binding
+
+const countriesSearch = ref("");
 const OptionListOpen = ref(false);
 const outsideClick = ref(false);
 const openIcon = ref(false);
+const currencyShown = ref(null);
 const listOpenOne = inject("listOpenOne");
 const listOpenTwo = inject("listOpenTwo");
+
+const arrowIcon = computed(() => {
+  return openIcon.value === false && props.isOpen === false
+    ? "&#x25BC;"
+    : "&#x25B2;";
+});
+
+// Filter the Currency Data by the Info which Enter by User
+const filteredCountries = computed(() => {
+  return props.countriesArray.filter((country) => {
+    return (
+      country.full_name
+        .toLowerCase()
+        .includes(countriesSearch.value.toLowerCase()) ||
+      country.currency_name
+        .toLowerCase()
+        .includes(countriesSearch.value.toLowerCase())
+    );
+  });
+});
+
+const currenciesNameShown = computed(() => {
+  return currencyShown.value === null
+    ? props.defaultIndex
+    : currencyShown.value;
+});
 
 function toogleSelect() {
   // 關閉其他的 currency__list
   OptionListOpen.value = true;
 }
 
-// function changeOpenIcon() {
-//   openIcon.value === "&#x25BC;" && props.isOpen === false
-//     ? (openIcon.value = "&#x25B2;")
-//     : (openIcon.value = "&#x25BC;");
-//   console.log(openIcon.value);
-//   console.log(props.isOpen);
-// }
-
-const OpenIcon = computed(() => {
-  return openIcon.value === false && props.isOpen === false
-    ? "&#x25BC;"
-    : "&#x25B2;";
-});
+// This Fuction Basically Change the Name of Currency Shown on the List
+function changeCurrencyName(countriesArray, countries) {
+  currencyShown.value = countriesArray.indexOf(countries);
+}
 
 onMounted(() => {
   window.addEventListener("click", () => {
@@ -179,7 +229,7 @@ $currency-option: 120px;
     padding-bottom: 1.2rem;
 
     &__name {
-      font-size: 2.5rem;
+      font-size: 1.8rem;
       padding: 0;
       margin-left: 1rem;
     }
