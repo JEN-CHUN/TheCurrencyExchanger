@@ -1,12 +1,12 @@
 <template>
   <div>
     <img
-      :src="countriesArray[shownInfo].country_flag"
+      :src="countriesArray[defaultIndex].country_flag"
       width="350"
       height="210"
       alt=""
     />
-    <p class="title">{{ countriesArray[shownInfo].full_name }}</p>
+    <p class="title">{{ countriesArray[defaultIndex].full_name }}</p>
     <CurrencySelect
       :isOpen="isOpen"
       :isDisabled="isDisabled"
@@ -14,15 +14,18 @@
       :defaultIndex="defaultIndex"
       @toggleIsOpen="$emit('toggleIsOpen')"
       @changeCountryInfo="changeIso"
-      v-model:testValue="testValue"
+      @changeCountryIndex="$emit('changeCountryIndex', currencyIso)"
+      @update-data="updateData"
+      @input="$emit('updateNumber', moneyValue)"
+      :currencyValue="currencyValue"
     />
   </div>
 </template>
 
 <script setup>
-import { ref, computed, defineProps, defineEmits } from "vue";
+import { ref, defineProps, defineEmits } from "vue";
 import CurrencySelect from "./CurrencySelect.vue";
-defineEmits(["toggleIsOpen"]);
+defineEmits(["toggleIsOpen", "updateNumber", "changeCountryIndex"]);
 const props = defineProps({
   isOpen: Boolean,
   isDisabled: Boolean,
@@ -33,21 +36,19 @@ const props = defineProps({
 });
 
 const currencyIso = ref(false);
-const testValue = ref(0);
-
+const moneyValue = ref(null);
 // This Function Changes the Flag and the name of Country User Selects
 function changeIso(code) {
   if (currencyIso.value === code) {
     return;
   }
   currencyIso.value = code;
-  console.log(currencyIso.value);
 }
 //////
+function updateData(value) {
+  moneyValue.value = +value;
+}
 
-const shownInfo = computed(() => {
-  return currencyIso.value === false ? props.defaultIndex : currencyIso.value;
-});
 props;
 </script>
 

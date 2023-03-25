@@ -1,13 +1,12 @@
 <template>
   <div class="currency" v-if="countriesArray">
     <input
-      type="text"
+      type="number"
       class="currency__input"
       :disabled="isDisabled"
-      :value="testValue"
-      @input="$emit('update:testValue', $event.target.value)"
+      @input="$emit('updateData', $event.target.value)"
+      :value="isNaN(currencyValue) ? 0 : currencyValue"
     />
-    <!-- <select name="currencies" class="currency__options" id=""> -->
     <div
       class="currency__options"
       @click.stop="toogleSelect()"
@@ -34,7 +33,8 @@
           :key="countries.full_name"
           @click="
             changeCurrencyName(countriesArray, countries),
-              $emit('changeCountryInfo', currencyShown)
+              $emit('changeCountryInfo', currencyShown),
+              $emit('changeCountryIndex')
           "
         >
           <img
@@ -49,9 +49,6 @@
           <p class="national-list__list-item__currency">
             - {{ countries.currency_name }}
           </p>
-          <!-- <p style="padding-left: 30px">
-            {{ countriesArray.indexOf(countries) }}
-          </p> -->
         </li>
       </ul>
     </div>
@@ -74,9 +71,14 @@ const props = defineProps({
   isDisabled: Boolean,
   countriesArray: Array,
   defaultIndex: Number,
-  testValue: String,
+  currencyValue: Number,
 });
-defineEmits(["toggleIsOpen", "changeCountryInfo", "update:testValue"]);
+defineEmits([
+  "toggleIsOpen",
+  "changeCountryInfo",
+  "updateData",
+  "changeCountryIndex",
+]);
 
 // These Section is for V-Model Binding
 
@@ -159,11 +161,14 @@ $currency-option: 120px;
     height: 4.5rem;
     outline: none;
     border: none;
+    appearance: none !important;
     border-radius: 1rem;
   }
 
   &__input:disabled {
     cursor: no-drop;
+    background-color: rgb(255, 255, 255);
+    color: black;
   }
   &__options {
     position: relative;
@@ -245,5 +250,16 @@ $currency-option: 120px;
     background-color: rgb(18, 255, 176);
     cursor: pointer;
   }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type="number"] {
+  appearance: textfield; /* Firefox */
 }
 </style>

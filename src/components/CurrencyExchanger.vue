@@ -7,6 +7,9 @@
           :countries-array="countriesArray"
           :default-index="defaultListOneInfo"
           @toggleIsOpen="toggleListOpenOne"
+          @update-number="convertingNum"
+          @changeCountryIndex="(index) => (defaultListOneInfo = index)"
+          :currencyValue="isNaN(listOneAmount) ? 0 : listOneAmount"
         ></currency-detail>
       </currency-card>
       <div class="exchanger__exchange-icon">&#x21cc;</div>
@@ -15,8 +18,12 @@
           :is-open="listOpenTwo"
           :countriesArray="countriesArray"
           :default-index="defaultListTwoInfo"
-          :isDisabled="true"
+          :is-disabled="true"
           @toggleIsOpen="toggleListOpenTwo"
+          @changeCountryIndex="(index) => (defaultListTwoInfo = index)"
+          :currency-value="
+            isNaN(convertedValue) || convertedValue < 0 ? 0 : convertedValue
+          "
         ></currency-detail>
       </currency-card>
     </div>
@@ -37,7 +44,7 @@
 </template>
 
 <script setup>
-import { ref, provide } from "vue";
+import { ref, computed, watch, provide } from "vue";
 import CurrencyDetail from "./CurrencyDetail/CurrencyDetail.vue";
 import CurrencyModal from "./CurrencyDetail/CurrencyModal.vue";
 import axios from "axios";
@@ -46,8 +53,9 @@ const listOpenOne = ref(false);
 const listOpenTwo = ref(false);
 const modalIsOpen = ref(false);
 const defaultListOneInfo = ref(92);
-const defaultListTwoInfo = ref(91);
-
+const defaultListTwoInfo = ref(36);
+const listOneAmount = ref(50);
+const listTwoAmount = ref(50);
 provide("listOpenOne", listOpenOne);
 provide("listOpenTwo", listOpenTwo);
 
@@ -78,6 +86,13 @@ function toggleModal() {
   modalIsOpen.value = false;
 }
 
+function convertingNum(v) {
+  listOneAmount.value = +v;
+}
+
+const convertedValue = computed(() => {
+  return listOneAmount.value * listTwoAmount.value;
+});
 async function getCountriesData() {
   try {
     axios
@@ -130,9 +145,6 @@ async function getCountriesData() {
           (country) =>
             country.full_name !== null && country.currency_name !== null
         );
-      })
-      .then(() => {
-        console.log(countriesArray.value[0].country_flag);
       });
   } catch (error) {
     (error) => {
@@ -145,6 +157,11 @@ async function getCountriesData() {
 }
 
 getCountriesData();
+
+// Watch if the Values Change and Do something to them :)
+watch(defaultListOneInfo, (newDefaultListOneInfo) => {
+  console.log(`New Default List One Info  is ${newDefaultListOneInfo}`);
+});
 </script>
 
 <style scoped lang="scss">
