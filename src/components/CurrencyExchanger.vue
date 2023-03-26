@@ -5,24 +5,36 @@
         <currency-detail
           :is-open="listOpenOne"
           :countries-array="countriesArray"
-          :default-index="defaultListOneInfo"
+          :default-index="listOneInfo"
           @toggleIsOpen="toggleListOpenOne"
           @update-number="convertingNum"
-          @changeCountryIndex="(index) => (defaultListOneInfo = index)"
-          :currencyValue="isNaN(listOneAmount) ? 0 : listOneAmount"
+          @changeCountryIndex="(index) => (listOneInfo = index)"
+          :currencyValue="
+            isNaN(listOneAmount) ||
+            listOneAmount < 0 ||
+            !isFinite(listOneAmount)
+              ? 0
+              : listOneAmount
+          "
         ></currency-detail>
       </currency-card>
-      <div class="exchanger__exchange-icon">&#x21cc;</div>
+      <div class="exchanger__exchange-icon" @click="listInfoExchange">
+        &#x21cc;
+      </div>
       <currency-card>
         <currency-detail
           :is-open="listOpenTwo"
           :countriesArray="countriesArray"
-          :default-index="defaultListTwoInfo"
+          :default-index="listTwoInfo"
           :is-disabled="true"
           @toggleIsOpen="toggleListOpenTwo"
-          @changeCountryIndex="(index) => (defaultListTwoInfo = index)"
+          @changeCountryIndex="(index) => (listTwoInfo = index)"
           :currency-value="
-            isNaN(convertedValue) || convertedValue < 0 ? 0 : convertedValue
+            isNaN(convertedValue) ||
+            convertedValue < 0 ||
+            !isFinite(convertedValue)
+              ? 0
+              : convertedValue
           "
         ></currency-detail>
       </currency-card>
@@ -30,32 +42,62 @@
     <div class="info-area">
       <p class="info-area__date">
         The following information is based on the data provided by the Currency
-        API on January 3, 2023.
+        API on {{ currentDate }}.
       </p>
       <radius-button @click="modalIsOpen = true"
         >Search for History Currencies</radius-button
       >
     </div>
+    <currency-alert
+      v-if="errorAlert"
+      @alert-close="errorAlert = false"
+    ></currency-alert>
   </div>
   <currency-modal
     v-if="modalIsOpen"
-    @toggleModal="toggleModal"
-  ></currency-modal>
+    @toggle-modal="toggleModal"
+    @confirm-date="confirmDate"
+    @change-date="123"
+    >{{ checkHistorySearchNaN }}
+    <template v-slot:example>Example: 2022 03 24</template></currency-modal
+  >
 </template>
 
 <script setup>
 import { ref, computed, watch, provide } from "vue";
 import CurrencyDetail from "./CurrencyDetail/CurrencyDetail.vue";
 import CurrencyModal from "./CurrencyDetail/CurrencyModal.vue";
+import CurrencyAlert from "./CurrencyDetail/CurrencyError.vue";
 import axios from "axios";
 
 const listOpenOne = ref(false);
 const listOpenTwo = ref(false);
 const modalIsOpen = ref(false);
-const defaultListOneInfo = ref(92);
-const defaultListTwoInfo = ref(36);
-const listOneAmount = ref(50);
-const listTwoAmount = ref(50);
+const listOneInfo = ref(92);
+const listTwoInfo = ref(36);
+const listOneAmount = ref(1);
+const listTwoAmount = ref(null);
+const convertedValue = computed(() => {
+  return listOneAmount.value * listTwoAmount.value;
+});
+
+// Check if the Number User Entered in History Search is NaN or Num
+const checkHistorySearchNaN = ref(
+  "Please Enter the Date in the Input Sections."
+);
+
+// The Variable of Date String Used in the Axios Fetch Method and the Date on Description
+const defaultCurrenciesUpdateDate = ref("latest");
+const updateDate = ref("");
+const currentDate = computed(() => {
+  return updateDate.value === ""
+    ? defaultCurrenciesUpdateDate.value
+    : updateDate.value;
+});
+
+// Error Alert
+const errorAlert = ref(false);
+
 provide("listOpenOne", listOpenOne);
 provide("listOpenTwo", listOpenTwo);
 
@@ -90,9 +132,36 @@ function convertingNum(v) {
   listOneAmount.value = +v;
 }
 
-const convertedValue = computed(() => {
-  return listOneAmount.value * listTwoAmount.value;
-});
+function listInfoExchange() {
+  [listOneInfo.value, listTwoInfo.value] = [
+    listTwoInfo.value,
+    listOneInfo.value,
+  ];
+}
+
+// Check if The Input User Enter are Numbers
+function confirmDate(year, month, day) {
+  if (isNaN(year) || isNaN(month) || isNaN(day)) {
+    checkHistorySearchNaN.value = "Invalid Value! Please Enter Numbers.";
+  }
+
+  if (year === null || month === null || day === null) {
+    checkHistorySearchNaN.value = "Please Fill in All Three Sections Below.";
+  }
+
+  if (Number(year) && Number(month) && Number(day)) {
+    checkHistorySearchNaN.value =
+      "Please Enter the Date in the Input Sections.";
+    updateDate.value = `${year.replace(/[^0-9.]/g, "")}-${month.replace(
+      /[^0-9.]/g,
+      ""
+    )}-${day.replace(/[^0-9.]/g, "")}`;
+    modalIsOpen.value = false;
+  }
+  getCountriesCurrency();
+}
+
+// Fetch the Info of All Available Countries
 async function getCountriesData() {
   try {
     axios
@@ -145,23 +214,84 @@ async function getCountriesData() {
           (country) =>
             country.full_name !== null && country.currency_name !== null
         );
+      })
+      .then(() => {
+        return getCountriesCurrency();
       });
   } catch (error) {
-    (error) => {
-      console.log(
-        "可能有東西設定錯誤了，或是api延遲了，請重新再試或是查看程式碼",
-        error
-      );
-    };
+    console.log(
+      "可能有東西設定錯誤了，或是api延遲了，請重新再試或是查看程式碼",
+      error
+    );
   }
 }
 
-getCountriesData();
+async function getCountriesCurrency() {
+  axios
+    .get(
+      `https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/${
+        currentDate.value
+      }/currencies/${countriesArray.value[
+        listOneInfo.value
+      ].currency_name.toLowerCase()}/${countriesArray.value[
+        listTwoInfo.value
+      ].currency_name.toLowerCase()}.json`
+    )
+    .then((res) => {
+      listTwoAmount.value =
+        res.data[
+          countriesArray.value[listTwoInfo.value].currency_name.toLowerCase()
+        ];
+    })
+    .catch(() => {
+      updateDate.value = "";
+      console.log(updateDate.value);
+      console.log(currentDate.value);
+      errorAlert.value = true;
+      axios
+        .get(
+          `https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/${
+            currentDate.value
+          }/currencies/${countriesArray.value[
+            listOneInfo.value
+          ].currency_name.toLowerCase()}/${countriesArray.value[
+            listTwoInfo.value
+          ].currency_name.toLowerCase()}.json`
+        )
+        .then((res) => {
+          console.log(res.data);
+          listTwoAmount.value =
+            res.data[
+              countriesArray.value[
+                listTwoInfo.value
+              ].currency_name.toLowerCase()
+            ];
+        })
+        .catch((error) => {
+          console.log(error);
+          console.log("May contain some inner error");
+        });
+    });
+}
 
 // Watch if the Values Change and Do something to them :)
-watch(defaultListOneInfo, (newDefaultListOneInfo) => {
-  console.log(`New Default List One Info  is ${newDefaultListOneInfo}`);
+watch(listOneInfo, (newDefaultlistOneInfo) => {
+  console.log(`New Default List One Info  is ${newDefaultlistOneInfo}`);
+  console.log(
+    `New Default List One Info  is ${countriesArray.value[newDefaultlistOneInfo].currency_name}`
+  );
+  getCountriesCurrency();
 });
+
+watch(listTwoInfo, (newDefaultlistTwoInfo) => {
+  console.log(`New Default List Two Info  is ${newDefaultlistTwoInfo}`);
+  console.log(
+    `New Default List One Info  is ${countriesArray.value[newDefaultlistTwoInfo].currency_name}`
+  );
+  getCountriesCurrency();
+});
+
+getCountriesData();
 </script>
 
 <style scoped lang="scss">

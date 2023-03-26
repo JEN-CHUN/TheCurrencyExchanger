@@ -1,7 +1,7 @@
 <template>
   <div class="currency" v-if="countriesArray">
     <input
-      type="number"
+      type="text"
       class="currency__input"
       :disabled="isDisabled"
       @input="$emit('updateData', $event.target.value)"

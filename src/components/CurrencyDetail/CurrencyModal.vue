@@ -2,24 +2,34 @@
   <div class="modal-container" @click="$emit('toggleModal')">
     <div class="modal-background"></div>
     <div class="modal" @click.stop>
-      <p class="modal__title">Please Enter the Date in the Bar Below</p>
+      <p class="modal__title"><slot></slot></p>
+      <p class="modal__example"><slot name="example"></slot></p>
       <input
         class="modal__input"
         type="text"
         placeholder="Please enter the Year"
+        v-model="year"
+        :class="{ 'wrong-number': yearWrongNumber }"
       />
       <input
         class="modal__input"
         type="text"
         placeholder="Please enter the Month"
+        v-model="month"
+        :class="{ 'wrong-number': monthWrongNumber }"
       />
       <input
         class="modal__input"
         type="text"
-        placeholder="Please enter the Date"
+        placeholder="Please enter the Day"
+        v-model="day"
+        :class="{ 'wrong-number': dayWrongNumber }"
       />
       <div class="modal__button-area">
-        <radius-button>Confirm</radius-button>
+        <radius-button
+          @click="$emit('confirmDate', year, month, day),$emit('changeDate'), checkWrongNumber()"
+          >Confirm</radius-button
+        >
         <radius-button class="modal__cancel" @click="$emit('toggleModal')"
           >Cancel</radius-button
         >
@@ -29,10 +39,36 @@
 </template>
 
 <script setup>
-import { defineEmits } from "vue";
+import { ref, defineEmits } from "vue";
 
-defineEmits(["toggleModal"]);
+defineEmits(["toggleModal", "confirmDate", "changeDate"]);
 
+const year = ref(null);
+const month = ref(null);
+const day = ref(null);
+const yearWrongNumber = ref(false);
+const monthWrongNumber = ref(false);
+const dayWrongNumber = ref(false);
+
+function checkWrongNumber() {
+  if (year.value === "" || year.value === null || isNaN(year.value)) {
+    yearWrongNumber.value = true;
+  } else {
+    yearWrongNumber.value = false;
+  }
+
+  if (month.value === "" || month.value === null || isNaN(month.value)) {
+    monthWrongNumber.value = true;
+  } else {
+    monthWrongNumber.value = false;
+  }
+
+  if (day.value === "" || day.value === null || isNaN(day.value)) {
+    dayWrongNumber.value = true;
+  } else {
+    dayWrongNumber.value = false;
+  }
+}
 ////////////
 </script>
 
@@ -72,6 +108,10 @@ defineEmits(["toggleModal"]);
     font-size: 4rem;
   }
 
+  &__example{
+    font-size: 3rem;
+  }
+
   &__input {
     font-size: 2.5rem;
     width: 500px;
@@ -102,5 +142,14 @@ defineEmits(["toggleModal"]);
     margin-top: 5rem;
     gap: 5rem;
   }
+}
+
+.wrong-number {
+  border: 2px solid #ff6464;
+  background-color: #ffb4b4;
+}
+
+.wrong-number:focus {
+  background-color: #ff9191;
 }
 </style>
