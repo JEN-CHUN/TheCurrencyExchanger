@@ -23,7 +23,7 @@ defineEmits(["alertClose"]);
   width: 500px;
   height: 500px;
   position: absolute;
-  top: 50%;
+  top: 36%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 9999;

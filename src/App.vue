@@ -24,6 +24,7 @@ import CurrencyExchanger from "./components/CurrencyExchanger.vue";
   margin: 0;
   font-size: 10px;
   box-sizing: border-box;
+  color: #190933;
 }
 
 #app {
@@ -35,11 +36,11 @@ import CurrencyExchanger from "./components/CurrencyExchanger.vue";
 .main {
   flex: 1;
   position: relative;
-  background-color: rgb(108, 108, 108);
+  background-color: #ACFCD9;
   
 }
 
 a:visited {
-  color: black;
+  color: #190933;
 }
 </style>

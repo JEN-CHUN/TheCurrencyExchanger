@@ -98,7 +98,7 @@ function checkWrongNumber() {
   align-items: center;
   height: 700px;
   width: 800px;
-  background-color: antiquewhite;
+  background-color: #AEC0D3;
   position: absolute;
   border-radius: 1rem;
   top: 15%;
@@ -129,7 +129,7 @@ function checkWrongNumber() {
   }
 
   &__input:focus {
-    background-color: aquamarine;
+    background-color: #ACFCD9;
     padding-left: 1.5rem;
   }
 

@@ -315,7 +315,7 @@ getCountriesData();
 }
 
 .exchanger {
-  background-color: aqua;
+
   display: flex;
   justify-content: space-between;
 
@@ -396,7 +396,7 @@ getCountriesData();
 
     &__button {
       position: fixed;
-      bottom: 7rem;
+      bottom: 4rem;
       right: 1rem;
       z-index: 100;
     }

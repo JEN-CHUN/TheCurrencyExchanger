@@ -81,7 +81,7 @@ function toogleHamburger() {
 }
 
 .nav-container {
-  background-color: yellow;
+  background-color: #5dd9c1;
   display: flex;
   justify-content: center;
   width: 100%;
@@ -161,7 +161,7 @@ function toogleHamburger() {
   left: 0;
   height: 100%;
   width: 50%;
-  background-color: black;
+  background-color: #5dd9c1;
   overflow-x: hidden;
   z-index: 9999;
   transition: all 0.6s ease-in;
@@ -170,7 +170,7 @@ function toogleHamburger() {
     font-size: 5rem;
     display: block;
     flex-wrap: wrap;
-    color: white;
+    color: #190933;
     text-decoration: none;
     transition: all 0.8s ease-in-out;
   }
@@ -184,7 +184,7 @@ function toogleHamburger() {
     cursor: pointer;
   }
   &__close::after {
-    color: rgb(255, 255, 255);
+    color: #190933;
     font-size: 100px;
     height: 50px;
     width: 50px;
