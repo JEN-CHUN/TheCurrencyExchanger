@@ -88,7 +88,7 @@ function toogleHamburger() {
   min-height: 80px;
   position: fixed;
   top: 0;
-  z-index: 1000;
+  z-index: 9999;
 }
 
 .nav {
@@ -205,7 +205,7 @@ function toogleHamburger() {
   transition: all 0.5s ease-in;
 }
 
-@media (max-width: 980px) {
+@media (max-width: 979px) {
   .nav-left {
     &__title {
       font-size: 3rem;

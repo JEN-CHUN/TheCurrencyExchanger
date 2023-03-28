@@ -1,9 +1,8 @@
 <template>
   <div>
     <img
+      class="picture"
       :src="countriesArray[defaultIndex].country_flag"
-      width="350"
-      height="210"
       alt=""
     />
     <p class="title">{{ countriesArray[defaultIndex].full_name }}</p>
@@ -55,5 +54,16 @@ props;
 <style>
 .title {
   font-size: 3rem;
+}
+.picture {
+  width: 350px;
+  height: 210px;
+}
+
+@media (max-width: 450px) {
+  .picture {
+    width: 245px;
+    height: 147px;
+  }
 }
 </style>

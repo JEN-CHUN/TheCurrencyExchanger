@@ -34,8 +34,9 @@ import CurrencyExchanger from "./components/CurrencyExchanger.vue";
 
 .main {
   flex: 1;
-  // position: relative;
+  position: relative;
   background-color: rgb(108, 108, 108);
+  
 }
 
 a:visited {

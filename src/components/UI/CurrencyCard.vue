@@ -12,6 +12,12 @@
   background-color: rgb(252, 252, 252);
   border-radius: 0.8rem;
   box-shadow: 1.5px 3px 5px 3px rgb(89, 89, 89);
-  z-index: 1;
+  // z-index: 1;
+}
+
+@media (max-width: 450px) {
+  .currency-card{
+    width: 300px;
+  }
 }
 </style>

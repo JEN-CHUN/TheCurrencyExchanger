@@ -1,7 +1,7 @@
 <template>
   <div class="converter-containter" v-if="countriesArray">
     <div class="exchanger">
-      <currency-card>
+      <currency-card class="exchanger__card">
         <currency-detail
           :is-open="listOpenOne"
           :countries-array="countriesArray"
@@ -18,10 +18,14 @@
           "
         ></currency-detail>
       </currency-card>
-      <div class="exchanger__exchange-icon" @click="listInfoExchange">
+      <div
+        class="exchanger__exchange-icon"
+        :class="{ rotate: rotate }"
+        @click="listInfoExchange"
+      >
         &#x21cc;
       </div>
-      <currency-card>
+      <currency-card class="exchanger__card">
         <currency-detail
           :is-open="listOpenTwo"
           :countriesArray="countriesArray"
@@ -42,25 +46,29 @@
     <div class="info-area">
       <p class="info-area__date">
         The following information is based on the data provided by the Currency
-        API on {{ currentDate }}.
+        API on
+        {{ currentDate === "latest" ? "The Latest Date" : currentDate }}.
       </p>
-      <radius-button @click="modalIsOpen = true"
+      <radius-button
+        class="info-area__button"
+        :class="{ 'display-none': modalIsOpen }"
+        @click="modalIsOpen = true"
         >Search for History Currencies</radius-button
       >
     </div>
+
     <currency-alert
       v-if="errorAlert"
       @alert-close="errorAlert = false"
     ></currency-alert>
+    <currency-modal
+      v-if="modalIsOpen"
+      @toggle-modal="toggleModal"
+      @confirm-date="confirmDate"
+      >{{ checkHistorySearchNaN }}
+      <template v-slot:example>Example: 2022 03 24</template></currency-modal
+    >
   </div>
-  <currency-modal
-    v-if="modalIsOpen"
-    @toggle-modal="toggleModal"
-    @confirm-date="confirmDate"
-    @change-date="123"
-    >{{ checkHistorySearchNaN }}
-    <template v-slot:example>Example: 2022 03 24</template></currency-modal
-  >
 </template>
 
 <script setup>
@@ -81,6 +89,8 @@ const convertedValue = computed(() => {
   return listOneAmount.value * listTwoAmount.value;
 });
 
+// The Ref that make Icon Rotate
+const rotate = ref(false);
 // Check if the Number User Entered in History Search is NaN or Num
 const checkHistorySearchNaN = ref(
   "Please Enter the Date in the Input Sections."
@@ -126,6 +136,7 @@ function toggleListOpenTwo() {
 
 function toggleModal() {
   modalIsOpen.value = false;
+  checkHistorySearchNaN.value = "Please Enter the Date in the Input Sections.";
 }
 
 function convertingNum(v) {
@@ -137,6 +148,7 @@ function listInfoExchange() {
     listTwoInfo.value,
     listOneInfo.value,
   ];
+  rotate.value = !rotate.value;
 }
 
 // Check if The Input User Enter are Numbers
@@ -157,8 +169,8 @@ function confirmDate(year, month, day) {
       ""
     )}-${day.replace(/[^0-9.]/g, "")}`;
     modalIsOpen.value = false;
+    getCountriesCurrency();
   }
-  getCountriesCurrency();
 }
 
 // Fetch the Info of All Available Countries
@@ -299,19 +311,21 @@ getCountriesData();
   max-width: 1280px;
   margin: auto;
   margin-top: 25rem;
-  position: relative;
+  // position: relative;
 }
 
 .exchanger {
   background-color: aqua;
   display: flex;
   justify-content: space-between;
-  gap: 30px;
 
   &__exchange-icon {
+    transition: all 0.5s ease;
+    cursor: pointer;
     font-size: 10rem;
     align-self: center;
     cursor: pointer;
+    user-select: none;
   }
 }
 
@@ -320,18 +334,85 @@ getCountriesData();
   justify-content: space-between;
   align-items: center;
   margin-top: 4rem;
+  padding: 0 30px;
   font-size: 3rem;
 
   &__date {
     font-size: 2.25rem;
+    width: 750px;
   }
 }
 
+.rotate {
+  transform: rotate(360deg);
+}
+.display-none {
+  display: none;
+}
 .clear-all {
   background-color: rgb(255, 129, 129);
 }
 
 .clear-all:hover {
   background-color: rgb(253, 77, 77);
+}
+
+@media (max-width: 1280px) {
+  .info-area {
+    &__date {
+      width: 650px;
+    }
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 980px) {
+  .converter-containter {
+    margin-top: 16rem;
+    margin-bottom: 10rem;
+  }
+  .exchanger {
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 3.5rem;
+    margin-bottom: 10rem;
+
+    &__exchange-icon {
+      transform: rotate(90deg);
+    }
+
+    &__card {
+      margin: auto;
+    }
+  }
+
+  .info-area {
+    flex-wrap: wrap;
+    gap: 3rem;
+    &__date {
+      order: 2;
+      width: 100%;
+    }
+
+    &__button {
+      position: fixed;
+      bottom: 7rem;
+      right: 1rem;
+      z-index: 100;
+    }
+  }
+
+  .rotate {
+    transform: rotate(270deg);
+  }
+}
+
+@media (min-width: 981px) {
+  .exchanger {
+    margin-bottom: 10rem;
+  }
+  .info-area {
+    margin-bottom: 5rem;
+  }
 }
 </style>

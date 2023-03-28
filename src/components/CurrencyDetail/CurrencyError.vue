@@ -23,6 +23,7 @@ defineEmits(["alertClose"]);
   width: 500px;
   height: 500px;
   position: absolute;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 9999;
@@ -30,6 +31,34 @@ defineEmits(["alertClose"]);
   &__content {
     font-size: 3rem;
   }
-  // display: none;
+}
+
+@media (max-width: 550px) {
+  .alert-container{
+    width: 400px;
+    height: 400px;
+  }
+}
+
+@media (max-width: 450px) {
+  .alert-container{
+    width: 350px;
+    height: 400px;
+    &__content{
+    font-size: 2.5rem;
+  }
+  }
+}
+
+@media (max-width: 400px) {
+  .alert-container{
+    width: 300px;
+    height: 400px;
+    &__content{
+    font-size: 2rem;
+  }
+  }
+
+
 }
 </style>

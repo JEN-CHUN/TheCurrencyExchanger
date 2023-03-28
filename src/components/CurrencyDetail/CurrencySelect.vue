@@ -152,7 +152,7 @@ $currency-option: 120px;
   display: flex;
   border: 1px solid black;
   position: relative;
-  z-index: 9999;
+  // z-index: 9999;
   border-radius: 1rem;
 
   &__input {
@@ -204,6 +204,8 @@ $currency-option: 120px;
     overflow-y: scroll;
     right: 0;
     box-shadow: 2px 5px 6px 1px rgb(71, 71, 71);
+    z-index: 9000;
+
 
     &__search {
       width: 100%;
@@ -261,5 +263,44 @@ input::-webkit-inner-spin-button {
 
 input[type="number"] {
   appearance: textfield; /* Firefox */
+}
+
+@media (max-width: 450px) {
+  .picture {
+    width: 245px;
+    height: 147px;
+  }
+
+  .currency {
+
+  &__list {
+    position: absolute;
+    height: 25rem;
+    width: 27rem;
+    background-color: aqua;
+    top: calc(100% + 0.1rem);
+    overflow-y: scroll;
+    right: 0;
+    box-shadow: 2px 5px 6px 1px rgb(71, 71, 71);
+    z-index: 9000;
+
+
+    &__search {
+      width: 100%;
+      height: 3.5rem;
+      font-size: 1.5rem;
+      border: 0;
+      outline: none;
+    }
+
+    &__search::placeholder {
+      font-size: 1.5rem;
+    }
+
+    &__search:focus {
+      background-color: rgb(209, 255, 255);
+    }
+  }
+}
 }
 </style>
