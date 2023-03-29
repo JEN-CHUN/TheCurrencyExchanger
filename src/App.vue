@@ -1,7 +1,7 @@
 <template>
   <currency-navigation></currency-navigation>
   <main class="main">
-    <currency-exchanger></currency-exchanger>
+    <router-view></router-view>
   </main>
   <CurrencyFooter />
 </template>
@@ -9,7 +9,7 @@
 
 import CurrencyNavigation from "./components/CurrencyNavigation.vue";
 import CurrencyFooter from "./components/CurrencyFooter.vue";
-import CurrencyExchanger from "./components/CurrencyExchanger.vue";
+// import CurrencyExchanger from "./components/CurrencyExchanger.vue";
 
 // const a = ref(1);
 // const b = ref(2);
@@ -36,6 +36,7 @@ import CurrencyExchanger from "./components/CurrencyExchanger.vue";
 .main {
   flex: 1;
   position: relative;
+  margin-top: 8rem;
   background-color: #ACFCD9;
   
 }

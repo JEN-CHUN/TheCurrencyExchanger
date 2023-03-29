@@ -199,13 +199,12 @@ $currency-option: 120px;
     position: absolute;
     height: 25rem;
     width: 30rem;
-    background-color: aqua;
+    background-color: #ACFCD9;
     top: calc(100% + 0.1rem);
     overflow-y: scroll;
     right: 0;
     box-shadow: 2px 5px 6px 1px rgb(71, 71, 71);
     z-index: 9000;
-
 
     &__search {
       width: 100%;
@@ -249,7 +248,7 @@ $currency-option: 120px;
   }
 
   &__list-item:hover {
-    background-color: rgb(18, 255, 176);
+    background-color: #85EBCD;
     cursor: pointer;
   }
 }
@@ -272,35 +271,25 @@ input[type="number"] {
   }
 
   .currency {
+    &__list {
+      position: absolute;
+      width: 27rem;
+      &__search {
+        width: 100%;
+        height: 3.5rem;
+        font-size: 1.5rem;
+        border: 0;
+        outline: none;
+      }
 
-  &__list {
-    position: absolute;
-    height: 25rem;
-    width: 27rem;
-    background-color: aqua;
-    top: calc(100% + 0.1rem);
-    overflow-y: scroll;
-    right: 0;
-    box-shadow: 2px 5px 6px 1px rgb(71, 71, 71);
-    z-index: 9000;
+      &__search::placeholder {
+        font-size: 1.5rem;
+      }
 
-
-    &__search {
-      width: 100%;
-      height: 3.5rem;
-      font-size: 1.5rem;
-      border: 0;
-      outline: none;
-    }
-
-    &__search::placeholder {
-      font-size: 1.5rem;
-    }
-
-    &__search:focus {
-      background-color: rgb(209, 255, 255);
+      &__search:focus {
+        background-color: rgb(209, 255, 255);
+      }
     }
   }
-}
 }
 </style>

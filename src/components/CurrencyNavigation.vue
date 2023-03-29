@@ -1,7 +1,7 @@
 <template>
   <div class="nav-container">
     <nav class="nav">
-      <div class="nav-left">
+      <router-link class="nav-left" to="/">
         <img
           class="nav-left__logo"
           src="../assets/logo.svg"
@@ -9,15 +9,20 @@
           width="60"
           height="60"
         />
-        <p class="nav-left__title">The Currency Exchanger</p>
-      </div>
+        <p class="nav-left__title">The Currency Exchanger</p></router-link
+      >
+
       <div class="nav-right">
         <ul class="nav-right__link-menu">
           <li class="nav-right__link">
-            <a href="" class="nav-right__link-text">Get Started</a>
+            <router-link class="nav-right__link-text" to="/"
+              >Get Started</router-link
+            >
           </li>
           <li class="nav-right__link">
-            <a href="" class="nav-right__link-text">About The Project</a>
+            <router-link class="nav-right__link-text" to="/about"
+              >About The Project</router-link
+            >
           </li>
           <li class="nav-right__link">
             <a href="" class="nav-right__link-text">About Me</a>
@@ -77,7 +82,7 @@ function toogleHamburger() {
 <style scoped lang="scss">
 * {
   background-color: inherit;
-  // color: black;
+  text-decoration: none;
 }
 
 .nav-container {
@@ -85,7 +90,7 @@ function toogleHamburger() {
   display: flex;
   justify-content: center;
   width: 100%;
-  min-height: 80px;
+  height: 80px;
   position: fixed;
   top: 0;
   z-index: 9999;
