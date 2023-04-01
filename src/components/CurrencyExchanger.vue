@@ -1,74 +1,70 @@
 <template>
-  <div class="converter-containter" v-if="countriesArray">
-    <div class="exchanger">
-      <currency-card class="exchanger__card">
-        <currency-detail
-          :is-open="listOpenOne"
-          :countries-array="countriesArray"
-          :default-index="listOneInfo"
-          @toggleIsOpen="toggleListOpenOne"
-          @update-number="convertingNum"
-          @changeCountryIndex="(index) => (listOneInfo = index)"
-          :currencyValue="
-            isNaN(listOneAmount) ||
-            listOneAmount < 0 ||
-            !isFinite(listOneAmount)
-              ? 0
-              : listOneAmount
-          "
-        ></currency-detail>
-      </currency-card>
-      <div
-        class="exchanger__exchange-icon"
-        :class="{ rotate: rotate }"
-        @click="listInfoExchange"
-      >
-        &#x21cc;
-      </div>
-      <currency-card class="exchanger__card">
-        <currency-detail
-          :is-open="listOpenTwo"
-          :countriesArray="countriesArray"
-          :default-index="listTwoInfo"
-          :is-disabled="true"
-          @toggleIsOpen="toggleListOpenTwo"
-          @changeCountryIndex="(index) => (listTwoInfo = index)"
-          :currency-value="
-            isNaN(convertedValue) ||
-            convertedValue < 0 ||
-            !isFinite(convertedValue)
-              ? 0
-              : convertedValue
-          "
-        ></currency-detail>
-      </currency-card>
+  <div class="exchanger" v-if="countriesArray">
+    <currency-card class="exchanger__card">
+      <currency-detail
+        :is-open="listOpenOne"
+        :countries-array="countriesArray"
+        :default-index="listOneInfo"
+        @toggleIsOpen="toggleListOpenOne"
+        @update-number="convertingNum"
+        @changeCountryIndex="(index) => (listOneInfo = index)"
+        :currencyValue="
+          isNaN(listOneAmount) || listOneAmount < 0 || !isFinite(listOneAmount)
+            ? 0
+            : listOneAmount
+        "
+      ></currency-detail>
+    </currency-card>
+    <div
+      class="exchanger__exchange-icon"
+      :class="{ rotate: rotate }"
+      @click="listInfoExchange"
+    >
+      &#x21cc;
     </div>
-    <div class="info-area">
-      <p class="info-area__date">
-        The following information is based on the data provided by the Currency
-        API on
-        {{ currentDate === "latest" ? "The Latest Date" : currentDate }}.
-      </p>
-      <radius-button
-        class="info-area__button"
-        :class="{ 'display-none': modalIsOpen }"
-        @click="modalIsOpen = true"
-        >Search for History Currencies</radius-button
-      >
-    </div>
-
-    <currency-alert
-      v-if="errorAlert"
-      @alert-close="errorAlert = false"
-    ></currency-alert>
-    <currency-modal
-      v-if="modalIsOpen"
-      @toggle-modal="toggleModal"
-      @confirm-date="confirmDate"
-      >{{ checkHistorySearchNaN }}
-      <template v-slot:example>Example: 2022 03 24</template></currency-modal
+    <currency-card class="exchanger__card">
+      <currency-detail
+        :is-open="listOpenTwo"
+        :countriesArray="countriesArray"
+        :default-index="listTwoInfo"
+        :is-disabled="true"
+        @toggleIsOpen="toggleListOpenTwo"
+        @changeCountryIndex="(index) => (listTwoInfo = index)"
+        :currency-value="
+          isNaN(convertedValue) ||
+          convertedValue < 0 ||
+          !isFinite(convertedValue)
+            ? 0
+            : convertedValue
+        "
+      ></currency-detail>
+    </currency-card>
+  </div>
+  <div class="info-area">
+    <p class="info-area__date">
+      The following information is based on the data provided by the Currency
+      API on
+      {{ currentDate === "latest" ? "The Latest Date" : currentDate }}.
+    </p>
+    <radius-button
+      class="info-area__button"
+      :class="{ 'display-none': modalIsOpen }"
+      @click="modalIsOpen = true"
+      >Search for History Currencies</radius-button
     >
   </div>
+
+  <currency-alert
+    v-if="errorAlert"
+    @alert-close="errorAlert = false"
+  ></currency-alert>
+  <currency-modal
+    v-if="modalIsOpen"
+    @toggle-modal="toggleModal"
+    @confirm-date="confirmDate"
+    >{{ checkHistorySearchNaN }}
+    <template v-slot:example>Example: 2022 03 24</template></currency-modal
+  >
 </template>
 
 <script setup>
@@ -304,18 +300,12 @@ watch(listTwoInfo, (newDefaultlistTwoInfo) => {
 });
 
 getCountriesData();
+
+
 </script>
 
 <style scoped lang="scss">
-.converter-containter {
-  max-width: 1280px;
-  margin: auto;
-  margin-top: 25rem;
-  // position: relative;
-}
-
 .exchanger {
-
   display: flex;
   justify-content: space-between;
 
@@ -367,7 +357,7 @@ getCountriesData();
 }
 
 @media (max-width: 980px) {
-  .converter-containter {
+  .main-containter {
     margin-top: 16rem;
     margin-bottom: 10rem;
   }

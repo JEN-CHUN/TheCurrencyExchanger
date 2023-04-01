@@ -1,12 +1,13 @@
 <template>
   <currency-navigation></currency-navigation>
   <main class="main">
-    <router-view></router-view>
+    <div class="main-containter">
+      <router-view></router-view>
+    </div>
   </main>
   <CurrencyFooter />
 </template>
 <script setup>
-
 import CurrencyNavigation from "./components/CurrencyNavigation.vue";
 import CurrencyFooter from "./components/CurrencyFooter.vue";
 // import CurrencyExchanger from "./components/CurrencyExchanger.vue";
@@ -37,8 +38,13 @@ import CurrencyFooter from "./components/CurrencyFooter.vue";
   flex: 1;
   position: relative;
   margin-top: 8rem;
-  background-color: #ACFCD9;
-  
+  background-color: #acfcd9;
+}
+
+.main-containter {
+  max-width: 1280px;
+  margin: auto;
+  margin-top: 15rem;
 }
 
 a:visited {

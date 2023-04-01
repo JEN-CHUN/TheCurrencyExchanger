@@ -1,8 +1,13 @@
 <template>
-<h2>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos obcaecati sapiente dolores, reprehenderit totam hic quaerat doloremque, voluptatum inventore molestias ducimus consequuntur id tempore aspernatur vero fuga tempora! Omnis, minima.</h2>
-
+  <about-feature></about-feature>
+  <about-intro></about-intro>
 </template>
 
-<script setup></script>
+<script setup>
+import AboutIntro from './AboutApp/AboutIntro.vue'
+import AboutFeature from './AboutApp/AboutFeature.vue'
+</script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+
+</style>
