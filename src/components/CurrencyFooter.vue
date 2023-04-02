@@ -1,6 +1,6 @@
 <template>
   <footer class="footer">
-    <p class="footer__text">2023 Vue 練習 串接兩個不同的API</p>
+    <p class="footer__text">Vue Practice: Connecting to Two Different APIs</p>
   </footer>
 </template>
 

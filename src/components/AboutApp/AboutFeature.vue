@@ -30,27 +30,27 @@ import { ref } from "vue";
 const features = ref([
   {
     srcLink: "feature-apis.webp",
-    descriptionTitle: "Powered By Two Famouse Apis",
+    descriptionTitle: "Powered By Two Famous Apis",
     descriptionText:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore voluptate at possimus perferendis aut quis adipisci ipsa, officiis, velit eaque repellat minima, blanditiis quas natus non? Aliquam odio ut excepturi?",
+      "By integrating the Currency API and REST Countries API, we can establish a seamless connection to provide users with the most accurate data.",
   },
   {
     srcLink: "feature-update.webp",
     descriptionTitle: "Daily Updates",
     descriptionText:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore voluptate at possimus perferendis aut quis adipisci ipsa, officiis, velit eaque repellat minima, blanditiis quas natus non? Aliquam odio ut excepturi?",
+      "By fetching data from the Currency API, regularly update exchange rate data daily and support exchange rate data up to one year ago at most.",
   },
   {
     srcLink: "feature-search.webp",
     descriptionTitle: "Seamless Searching",
     descriptionText:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore voluptate at possimus perferendis aut quis adipisci ipsa, officiis, velit eaque repellat minima, blanditiis quas natus non? Aliquam odio ut excepturi?",
+      "Simply enter the country name or ISO code of the currency in the search list to find the desired information (if available).",
   },
   {
     srcLink: "feature-numbers.webp",
     descriptionTitle: "Data from Over 90 Countries",
     descriptionText:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore voluptate at possimus perferendis aut quis adipisci ipsa, officiis, velit eaque repellat minima, blanditiis quas natus non? Aliquam odio ut excepturi?",
+      "Our service provides currency information for 97 different countries, displaying their national flag and name to help users confirm their selection.",
   },
 ]);
 </script>
@@ -95,10 +95,88 @@ const features = ref([
     &__title {
       font-size: 3rem;
       text-align: center;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
     }
     &__text {
       font-size: 2.4rem;
+      line-height: 3.5rem;
+    }
+  }
+}
+
+@media (max-width: 960px) {
+  .feature-intro {
+    &__feature {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      margin-bottom: 6rem;
+    }
+
+    &__feature:nth-child(even) {
+      .order-pic {
+        order: 1;
+      }
+
+      .order-description {
+        order: 2;
+      }
+    }
+
+    &__feature:last-of-type {
+      margin-bottom: 0rem;
+    }
+
+    &__picture {
+      width: 500px;
+      height: 400px;
+      margin-bottom: 5rem;
+    }
+
+    &__description {
+      width: 500px;
+      height: 100%;
+      &__title {
+        font-size: 3rem;
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+      &__text {
+        font-size: 2.4rem;
+        line-height: 3.5rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 560px) {
+  .feature-intro {
+
+    &__picture {
+      width: 400px;
+      height: 300px;
+      margin-bottom: 5rem;
+    }
+
+    &__description {
+      width: 400px;
+      height: 100%;
+    }
+  }
+}
+
+@media (max-width: 450px) {
+  .feature-intro {
+
+    &__picture {
+      width: 300px;
+      height: 200px;
+      margin-bottom: 5rem;
+    }
+
+    &__description {
+      width: 300px;
+      height: 100%;
     }
   }
 }
