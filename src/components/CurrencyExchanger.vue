@@ -253,8 +253,6 @@ async function getCountriesCurrency() {
     })
     .catch(() => {
       updateDate.value = "";
-      console.log(updateDate.value);
-      console.log(currentDate.value);
       errorAlert.value = true;
       axios
         .get(
@@ -267,7 +265,6 @@ async function getCountriesCurrency() {
           ].currency_name.toLowerCase()}.json`
         )
         .then((res) => {
-          console.log(res.data);
           listTwoAmount.value =
             res.data[
               countriesArray.value[
@@ -283,25 +280,15 @@ async function getCountriesCurrency() {
 }
 
 // Watch if the Values Change and Do something to them :)
-watch(listOneInfo, (newDefaultlistOneInfo) => {
-  console.log(`New Default List One Info  is ${newDefaultlistOneInfo}`);
-  console.log(
-    `New Default List One Info  is ${countriesArray.value[newDefaultlistOneInfo].currency_name}`
-  );
+watch(listOneInfo, () => {
   getCountriesCurrency();
 });
 
-watch(listTwoInfo, (newDefaultlistTwoInfo) => {
-  console.log(`New Default List Two Info  is ${newDefaultlistTwoInfo}`);
-  console.log(
-    `New Default List One Info  is ${countriesArray.value[newDefaultlistTwoInfo].currency_name}`
-  );
+watch(listTwoInfo, () => {
   getCountriesCurrency();
 });
 
 getCountriesData();
-
-
 </script>
 
 <style scoped lang="scss">

@@ -25,7 +25,9 @@
             >
           </li>
           <li class="nav-right__link">
-            <a href="" class="nav-right__link-text">About Me</a>
+            <router-link class="nav-right__link-text" to="/author"
+              >About Me</router-link
+            >
           </li>
         </ul>
         <div
@@ -41,24 +43,22 @@
     </nav>
     <div class="side-nav" :class="{ 'width-0': !hamburgerActive }">
       <div class="side-nav__close" @click="toogleHamburger"></div>
-      <a
-        class="side-nav__link"
-        :class="{ 'text-transition': !hamburgerActive }"
-        href=""
-        >Get Started</a
+      <router-link class="nav-right__link-text" to="/" @click="hamburgerActive = false"
+        >Get Started</router-link
       >
-      <a
-        class="side-nav__link"
-        :class="{ 'text-transition': !hamburgerActive }"
-        href=""
-        >About The Project</a
+      <router-link
+        class="nav-right__link-text"
+        to="/about"
+        @click="hamburgerActive = false"
+        >About The Project</router-link
       >
-      <a
-        class="side-nav__link"
-        :class="{ 'text-transition': !hamburgerActive }"
-        href=""
-        >About Me</a
+      <router-link
+        class="nav-right__link-text"
+        to="/author"
+        @click="hamburgerActive = false"
+        >About Me</router-link
       >
+
     </div>
     <div
       v-if="hamburgerActive"
