@@ -1,4 +1,4 @@
-# Currency Exchanger 匯率轉換器
+# 匯率轉換器 Currency Exchanger 
 ### 本專案基於Currency API 與 Rest Countries 所實踐而成。
 ### 使用Vue與Axios技術，並使用Vue Cli 開發環境。
 
