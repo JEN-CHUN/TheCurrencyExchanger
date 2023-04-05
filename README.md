@@ -12,14 +12,14 @@
 
 # 本專案特色
 ### 清楚標示的圖片與國家名稱，清楚標明的資訊
-### ![Currnecy Exchange Example](./readme_img/currency-exchange.JPG)
+### ![Currnecy Exchange Example](./readme_img/currency-exchange.jpg)
 
 ### 可以自行選擇最多一年前的貨幣資訊(感謝Currency API)
-### ![Date Select](./readme_img/date-select.JPG)
+### ![Date Select](./readme_img/date-select.jpg)
 
 ### 清楚標示的圖片與國家名稱，清楚標明的資訊
-### ![Search Country Query](./readme_img/search-country.JPG)
-### ![Search Country Query](./readme_img/search-country2.JPG)
+### ![Search Country Query](./readme_img/search-country.jpg)
+### ![Search Country Query](./readme_img/search-country2.jpg)
 <br>
 
 <br/>
