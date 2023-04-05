@@ -6,7 +6,7 @@
 
 # 設計理念：
 ### 意旨在解決貨幣轉換的問題。
-### 於是決定基於網路熱門的API，自行開發出來一個匯率轉換Side Project
+### 於是決定使用網路熱門的API，自行開發出來一個匯率轉換Side Project
 
 <br/>
 
@@ -29,7 +29,7 @@
 ### Rest Countries (https://restcountries.com/)
 <br>
 
-# 如何安裝建置本APP
+# 如何安裝建置此APP
 
 ### 建置的第一步驟 (Project setup)
 ```
